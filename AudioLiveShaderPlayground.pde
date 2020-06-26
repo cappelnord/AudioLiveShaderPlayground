@@ -7,11 +7,12 @@ Install Libraries:
 AudioLiveShader liveShader;
 
 void setup() {
+  size(1280, 720, P3D);
   // fullScreen(P3D);
   frameRate(60);
 
   AudioLiveShaderHost.init(this, 512);  
-  liveShader = new AudioLiveShader(width, height, "data/frag-basic.fs");
+  liveShader = new AudioLiveShader(width, height, "data/frag-ikeda.fs");
 
   // liveShader.enableSyphon("LiveShader");
  }
