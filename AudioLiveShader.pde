@@ -149,7 +149,7 @@ class AudioLiveShader {
     set(name, new Uniform(name, a, b, c, d));
   }
   
-  void set(String name, PGraphics texture) {
+  void set(String name, PImage texture) {
      set(name, new Uniform(name, texture));
   }
   
