@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.Date.*;
+import java.text.SimpleDateFormat;
 import ddf.minim.analysis.*;
 import ddf.minim.*;
 
@@ -117,7 +119,16 @@ class AudioLiveShader {
       syphon.sendImage(texture);
     }
   }
-
+  
+  public void snapshot(String filename) {
+    texture.save(filename);
+    println("Saved snapshot to: " + filename);
+  }
+  
+  public void snapshot() {
+    String filename = (new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date())) + ".png";
+    snapshot("snapshots/" + filename);
+  }
   public boolean hasError() {
     return error != null;
   }

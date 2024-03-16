@@ -9,10 +9,20 @@ AudioLiveShader liveShader;
 // PImage whitney;
 // PGraphics canvas;
 
+int windowWidth = 1024;
+int windowHeight = 1024;
+int renderWidth = windowWidth * 2;
+int renderHeight = windowHeight * 2;
+
+int FPS = 60;
+
+void settings() {
+  size(windowWidth, windowHeight, P3D);  
+}
+
 void setup() {
-  size(1280, 720, P3D);
   // fullScreen(P3D);
-  frameRate(60);
+  frameRate(FPS);
   
   /*
   canvas = createGraphics(1280, 720, P3D);
@@ -20,7 +30,7 @@ void setup() {
   */
 
   AudioLiveShaderHost.init(this, 512);  
-  liveShader = new AudioLiveShader(width, height, "data/frag-basic.fs");
+  liveShader = new AudioLiveShader(renderWidth, renderHeight, "data/frag-basic.fs");
 
   // liveShader.enableSyphon("LiveShader");
  }
@@ -46,11 +56,17 @@ void draw() {
   background(0);
     
   if(liveShader.texture != null) {
-    image(liveShader.texture, 0, 0, width, height);
+    image(liveShader.texture, 0, 0, windowWidth, windowHeight);
   }
   
   if(liveShader.hasError()) {
     background(0);
     liveShader.displayError(30, 30);
+  }
+}
+
+void keyPressed() {
+  if(key == 's' || key == 'S') {
+    liveShader.snapshot();
   }
 }
