@@ -1,2 +1,4 @@
 snapshots/*.png
 snapshots/*.jpg
+videos/**.jpg
+videos/**.png

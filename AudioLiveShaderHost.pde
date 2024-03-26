@@ -85,6 +85,5 @@ static class AudioLiveShaderHost {
     program.set("level", audioLevel);
     program.set("runningLevelSum", audioRunningLevelSum);
     program.set("audioTexture", tex);
-    program.set("time", (float) main.millis() / 1000.0);
   }
 }

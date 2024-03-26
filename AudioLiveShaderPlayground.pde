@@ -31,6 +31,7 @@ void setup() {
 
   AudioLiveShaderHost.init(this, 512);  
   liveShader = new AudioLiveShader(renderWidth, renderHeight, "data/frag-basic.fs");
+  // liveShader.enableVideoOutput("videoName", 30);
 
   // liveShader.enableSyphon("LiveShader");
  }

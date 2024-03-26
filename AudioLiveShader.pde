@@ -35,6 +35,11 @@ class AudioLiveShader {
 
   int width;
   int height;
+  
+  private boolean videoMode = false;
+  private String videoName;
+  private int videoFPS;
+  private int videoFrameCount;
 
   public AudioLiveShader(int width, int height, String filename) {
     
@@ -54,6 +59,13 @@ class AudioLiveShader {
     this.height = height;
     
     setShaderFile(filename);
+  }
+  
+  public void enableVideoOutput(String name, int fps) {
+    videoMode = true;
+    videoName = name;
+    videoFPS = fps;
+    videoFrameCount = 0;
   }
   
   public void setShaderFile(String filename) {
@@ -82,6 +94,14 @@ class AudioLiveShader {
         program.set("feedback", textures[(texturePingPong+1) % 2]);
         program.set("width", (float) this.width);
         program.set("height", (float) this.height);
+        
+        if(!videoMode) {
+          program.set("time", (float) AudioLiveShaderHost.main.millis() / 1000.0);
+          program.set("frameCount", (float) frameCount);
+        } else {
+          program.set("time", (float) videoFrameCount / (float) videoFPS);
+          program.set("frameCount", (float) videoFrameCount);
+        }
         
         for(String key : uniforms.keySet()) {
           uniforms.get(key).apply(program);
@@ -118,11 +138,25 @@ class AudioLiveShader {
     if (syphon != null) {
       syphon.sendImage(texture);
     }
+    
+    if (videoMode) {
+      saveVideoFrame();
+    }
+  }
+  
+  private void saveVideoFrame() {
+    // check if output directory is there and if not create it
+    File f = new File("videos/" + videoName);
+    if(!f.isDirectory()) {
+      f.mkdir();
+    }
+    snapshot("videos/" + videoName + "/" + videoName + "-" + nf(videoFrameCount, 6) + ".png");
+    videoFrameCount++;
   }
   
   public void snapshot(String filename) {
     texture.save(filename);
-    println("Saved snapshot to: " + filename);
+    println("Saved image to: " + filename);
   }
   
   public void snapshot() {
